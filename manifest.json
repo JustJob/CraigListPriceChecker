@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "Car Price Checker",
+  "description": "This extension searches a page for the price using Edmunds.",
+  "version": "1.0",
+
+  "permissions": [
+    "https://api.edmunds.com/"
+  ],
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [ {
+    "js": [ "jquery-2.1.0.min.js", "contentscript.js"],
+    "matches" : [ 
+         "http://*/*",
+         "https://*/*"
+      ],
+    "run_at" : "document_idle"
+  }]
+}
