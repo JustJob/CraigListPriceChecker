@@ -16,6 +16,9 @@ var priceGetter = {
   },
 
   findYear: function() {
+    var yearRegex = /\d{2}(\d{2})?/gi
+    matches = this.title.match(yearRegex);
+    matches += this.body.match(yearRegex);
   },
   /**
    * Sends an XHR GET request to grab photos of lots and lots of kittens. The
@@ -46,17 +49,20 @@ var priceGetter = {
       img.setAttribute('alt', kittens[i].getAttribute('title'));
       document.body.appendChild(img);
     }
+  },
+
+  onRequest: function(request, sender, sendResponse) {
+    if(request.title != "" ||  request.body != "") {
+      priceGetter.title = request.title;
+      priceGetter.body = request.body;
+
+      var findYear = priceGetter.findYear();
+    }
   }
 };
 
 // Run our kitten generation script as soon as the document's DOM is ready.
 document.addEventListener('DOMContentLoaded', function () {
   //priceGetter.getPrice();
-  chrome.extension.onRequest.addListener(onRequest);
+  chrome.extension.onRequest.addListener(priceGetter.onRequest);
 });
-
-function onRequest(request, sender, sendResponse) {
-  if(request.title != "" ||  request.body != "") {
-    
-  }
-}
